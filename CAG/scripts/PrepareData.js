@@ -57,13 +57,22 @@ function prepareInterviewData() {
       //&& (interview.Core_Q1 == "1")
       )
     {
-      if (interview.urlVar15 && interview.urlVar16) {
-        var airline = interview.urlVar15;
-        var aiport = interview.urlVar16;
-        var aiport_code = aiport.substring(aiport.length - 4, aiport.length-1);
-        var aiport_airline = '"Airport_Airline"' + ":" + '"' +  aiport_code + " - " + airline;
+      ////////////////////
+      //TO fix data which include  airline name into Airline_Code
+      var temp = interview["custom.Airline"];
+      if (interview["custom.Airline_Code"].length>3) {
+        temp = temp.split(" - ");
+        var airlinecode = temp[0];
+        interview["custom.Airline_Code"] = airlinecode;
+      }
+      ////////////////////
 
-        var str = '{' + aiport_airline + '"}';
+      if (interview["custom.Dest"] &&  interview["custom.Airline_Code"]) {
+        var airport_code = interview["custom.Dest"];
+        var airline_code = interview["custom.Airline_Code"];
+        var airport_airline = '"Airport_Airline"' + ":" + '"' +  airport_code + " - " + airline_code + '", ';
+        var InterviewEndDate = '"InterviewEndDate"' + ":" + '"' +  interview["InterviewEndDate"] ;
+        var str = '{' + airport_airline + InterviewEndDate + '"}';
         interview_data.push(JSON.parse(str));
       }
       else{
@@ -71,6 +80,8 @@ function prepareInterviewData() {
       }
     }
   }
+
+  console.log("interview_data: ", interview_data);
 
   //prepare flight list
     //empty the list
@@ -89,11 +100,8 @@ function prepareInterviewData() {
 
       var airline_name = flight.Airline.split(" - ");; //name for display
       flight.airport_airline_name  = flight.Dest + " - " + airline_name[1]; //second part 
-    
-      flight.Flight =   flight.AirlineCode + " " + flight.Flight;
-      flight.Airport_code = flight.Dest;
+      flight.Flight = flight.AirlineCode + " " + flight.Flight;
       flight.Dtime = dtime;
-      flight.Airline = flight.AirlineCode;
       flight.Airport_Airline = airport_airline;
       today_flight_list.push(flight);
     }

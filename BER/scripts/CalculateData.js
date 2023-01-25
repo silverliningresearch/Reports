@@ -10,7 +10,7 @@ function CalculateAirportAirLineReport() {
     row = daily_plan_data[i];
     row.Completed = 0;
     for (j = 0; j < interview_data.length; j++) {
-      if (row.Airport_Airline == interview_data[j].Airport_Airline) 
+      if (row.Airport_Airline.toUpperCase() == interview_data[j].Airport_Airline.toUpperCase()) 
       { 
         row.Completed++;
       }

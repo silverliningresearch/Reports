@@ -51,7 +51,7 @@
           [
             row.Flight,
             row.DTerm,
-            row.Airport_code, row.Dtime, 
+            row.Dest, row.Dtime, 
             row.airport_airline_name,
             Number(row.Quota),
             Number(row.Completed), Number(row.Difference), Number(row.Difference_percent),
@@ -83,9 +83,8 @@
           // 'allowHtml': true, 
           'filterColumnLabel': 'Term.',
           "ui": {"label": "", 
-                "labelStacking": 'vertical',
-                "caption": "Select terminal",
-                cssClass: "filter-font"
+                "labelStacking": 'horizotal',
+                "caption": "Select terminals"
                 }
         };
         var tableFilter = new google.visualization.ControlWrapper({
@@ -114,9 +113,6 @@
         dashboard.draw(view);
 
         //Update time info
-        //const time_info = new Date(download_time);
-        //document.getElementById("download_time").innerHTML = "Data updated: " + time_info.toLocaleString('de-DE', {timeZone: 'Europe/Berlin',});
-        //No need to convert as we already did that in data download step
         document.getElementById("download_time").innerHTML = "Data updated: " + download_time;
       }
     </script>
@@ -127,6 +123,7 @@
     <div id="dashboard_div">
       <!--Divs that will hold each control and chart-->
       <div id="filter_div" style="font-size: 15px"> </div>
+
       <!-- <div id="2017" style="z-index:1;position: fixed;top: 70px;left: 850px;font-family: Arial;font-size: 13;color:red;">2017</div> -->
       </br>
       <div id="table_div"></div>

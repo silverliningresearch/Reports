@@ -59,11 +59,11 @@ function prepareInterviewData() {
     {
       if (interview.urlVar15 && interview.urlVar16) {
         var airline = interview.urlVar15;
-        var aiport = interview.urlVar16;
-        var aiport_code = aiport.substring(aiport.length - 4, aiport.length-1);
-        var aiport_airline = '"Airport_Airline"' + ":" + '"' +  aiport_code + " - " + airline;
-
-        var str = '{' + aiport_airline + '"}';
+        var airport = interview.urlVar16;
+        var airport_code = airport.substring(airport.length - 4, airport.length-1);
+        var airport_airline = '"Airport_Airline"' + ":" + '"' +  airport_code + " - " + airline + '", ';
+        var InterviewEndDate = '"InterviewEndDate"' + ":" + '"' +  interview["InterviewEndDate"] ;
+        var str = '{' + airport_airline + InterviewEndDate + '"}';
         interview_data.push(JSON.parse(str));
       }
       else{
@@ -71,6 +71,7 @@ function prepareInterviewData() {
       }
     }
   }
+  console.log("interview_data: ", interview_data);
 
   //prepare flight list
     //empty the list
@@ -112,4 +113,5 @@ function prepareInterviewData() {
        }
     }
   }
+  console.log("daily_plan_data list: ", daily_plan_data);
 }
