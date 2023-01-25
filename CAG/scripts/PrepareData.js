@@ -17,32 +17,32 @@ function getToDate() {
   if (day.length < 2) 
       day = '0' + day;
 
-  return [day, month,year].join('-');
+  return [day, month, year].join('-');
 }
 
 function notDeparted(flight_time) {
-  var current_time = new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin',});
+  var current_time = new Date().toLocaleString('en-SG', { timeZone: 'Asia/Singapore', hour12: false});
   //15:13:27
   var current_time_value  = current_time.substring(current_time.length-8,current_time.length-6) * 60;
   current_time_value += current_time.substring(current_time.length-5,current_time.length-3)*1;
 
-  // console.log("time de-DE: ", current_time);
-  // console.log("current_time_value: ", current_time_value);
+   //console.log("time en-SG: ", current_time);
+   //console.log("current_time_value: ", current_time_value);
 
-  //Time: 08:05    
-  var flight_time_value = flight_time.substring(0,2) * 60 + flight_time.substring(3,5)*1;
-  // console.log("flight_time_value: ", flight_time);
-  // console.log("flight_time_value: ", flight_time_value);
+  //Time: 0805    
+  var flight_time_value = flight_time.substring(0,2) * 60 + flight_time.substring(2,4)*1;
+  //console.log("flight_time_value: ", flight_time);
+  //console.log("flight_time_value: ", flight_time_value);
 
   var result = (flight_time_value > current_time_value);
-  // console.log("result: ", result);
+  //console.log("result: ", result);
   return (result);
 }
 
 function prepareInterviewData() {
   var quota_data_temp = JSON.parse(airport_airline_quota);
   var interview_data_temp  = JSON.parse(interview_data_raw);
-  var departures_flight_list_temp  = JSON.parse(departuresFlightList);
+  var flight_list_temp  = JSON.parse(cagAirHubFlightRawList);
 
   //get relevant interview data
   //empty the list
@@ -78,19 +78,22 @@ function prepareInterviewData() {
   today_flight_list.length = 0;
 
   var today = getToDate();
-  for (i = 0; i < departures_flight_list_temp.length; i++) {
-    let flight = departures_flight_list_temp[i];
+  for (i = 0; i < flight_list_temp.length; i++) {
+    let flight = flight_list_temp[i];
 
-    var dtime = flight.Show.substring(9,14);
+    var dtime = flight.Time;
     //only get today & not departed flight
     if ((today == flight.Date) && notDeparted(dtime)) { 
-      //Airline
-      var airline_code = flight.Flight.substring(0,2);
       //airport_airline
-      var airport_airline = flight.Airport_code + " - " + flight.Airline
+      var airport_airline = flight.Dest + " - " + flight.AirlineCode; //code for compare
 
+      var airline_name = flight.Airline.split(" - ");; //name for display
+      flight.airport_airline_name  = flight.Dest + " - " + airline_name[1]; //second part 
+    
+      flight.Flight =   flight.AirlineCode + " " + flight.Flight;
+      flight.Airport_code = flight.Dest;
       flight.Dtime = dtime;
-      flight.Airline = airline_code;
+      flight.Airline = flight.AirlineCode;
       flight.Airport_Airline = airport_airline;
       today_flight_list.push(flight);
     }
@@ -112,4 +115,5 @@ function prepareInterviewData() {
        }
     }
   }
+  console.log("daily_plan_data list: ", daily_plan_data);
 }
