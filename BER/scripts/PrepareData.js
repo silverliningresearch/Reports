@@ -82,16 +82,17 @@ function prepareInterviewData() {
   for (i = 0; i < departures_flight_list_temp.length; i++) {
     let flight = departures_flight_list_temp[i];
 
+    //add one more hour to convert from UTC to GMT
     var dhour_int = parseInt(flight.Show.substring(9,11)) + 1;
     var dhour = "0" + dhour_int;
     dhour = dhour.substring(dhour.length-2,dhour.length);
     var dminutes = flight.Show.substring(12,14);
     var dtime = dhour + ":" + dminutes;
-
-     console.log("flight.Show: ", flight.Show);
+    console.log("flight.Show: ", flight.Show);
     console.log("dhour: ", dhour);
     console.log("dminutes: ", dminutes);
     console.log("dtime: ", dtime); 
+    //
 
     //only get today & not departed flight
     if ((today == flight.Date) && notDeparted(dtime)) { 
