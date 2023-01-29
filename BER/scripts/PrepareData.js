@@ -11,7 +11,7 @@ var download_time;
 function initCurrentTimeVars() {
   var d = new Date();
       
-  month = '' + (d.getMonth() + 1),
+  month = '' + (d.getMonth() + 1), //month start from 0;
   day = '' + d.getDate(),
   year = d.getFullYear();
 
@@ -34,7 +34,7 @@ function isCurrentMonth(interviewEndDate)
   var result = false;
 
   var d = new Date();
-  month = '' + (d.getMonth() + 1),
+  month = '' + (d.getMonth() + 1); //month start from 0; 
   year = d.getFullYear();
   
   if ((month == interviewMonth) && (year==interviewYear))
@@ -102,7 +102,6 @@ function prepareInterviewData() {
 
   for (i = 0; i < departures_flight_list_temp.length; i++) {
     let flight = departures_flight_list_temp[i];
-
     //add one more hour to convert from UTC to GMT
     var dhour_int = parseInt(flight.Show.substring(9,11)) + 1;
     var dhour = "0" + dhour_int;
@@ -123,9 +122,13 @@ function prepareInterviewData() {
       today_flight_list.push(flight);
     }
 
-    //02-2023
+      //02-2023
     //"08-02-2023"
-    if ((currentMonth == flight.Date.substring(3,10)) && notDeparted(dtime)) { 
+    if (currentMonth == flight.Date.substring(3,10)) { 
+      if (flight.Airport_Airline =="VLC - easyJet Europe") 
+      {
+  
+      }
       this_month_flight_list.push(flight);
     }
   }

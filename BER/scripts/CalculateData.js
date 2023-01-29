@@ -109,12 +109,14 @@ function CalculateDOOP() {
           default:
             break;
         }
-
-        quota_data[i].doop =[mon, tue, wed, thu, fri, sat, sun].join('');
-        console.log("Date: ", this_month_flight_list[j]);
-        console.log("doop: ",quota_data[i]);
+        if (this_month_flight_list[j].Airport_Airline =="VLC - easyJet Europe")
+        {
+        // console.log("Date: ", this_month_flight_list[j]);
+        // console.log("doop: ",quota_data[i]);
+        }
       }
     }
-  
+    quota_data[i].doop =[mon, tue, wed, thu, fri, sat, sun].join('');
+
   }
 }
