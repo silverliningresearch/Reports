@@ -122,13 +122,9 @@ function prepareInterviewData() {
       today_flight_list.push(flight);
     }
 
-      //02-2023
-    //"08-02-2023"
+    //currentMonth: 02-2023
+    //flight.Date: 08-02-2023
     if (currentMonth == flight.Date.substring(3,10)) { 
-      if (flight.Airport_Airline =="VLC - easyJet Europe") 
-      {
-  
-      }
       this_month_flight_list.push(flight);
     }
   }
