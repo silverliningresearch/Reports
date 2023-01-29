@@ -51,16 +51,10 @@ function notDeparted(flight_time) {
   var current_time_value  = current_time.substring(current_time.length-8,current_time.length-6) * 60;
   current_time_value += current_time.substring(current_time.length-5,current_time.length-3)*1;
 
-  // console.log("time de-DE: ", current_time);
-  // console.log("current_time_value: ", current_time_value);
-
   //Time: 08:05    
   var flight_time_value = flight_time.substring(0,2) * 60 + flight_time.substring(3,5)*1;
-  // console.log("flight_time_value: ", flight_time);
-  // console.log("flight_time_value: ", flight_time_value);
 
   var result = (flight_time_value > current_time_value);
-  // console.log("result: ", result);
   return (result);
 }
 
@@ -98,8 +92,6 @@ function prepareInterviewData() {
       }
     }
   }
-  // console.log("interview_data: ", interview_data);
-
   //prepare flight list
     //empty the list
   today_flight_list = [];

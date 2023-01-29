@@ -29,18 +29,19 @@
         //define header
         data.addColumn('string', 'To Airport - By Airline');
         data.addColumn('number', 'Quota');
+        data.addColumn('string', 'DOOP [Mon-Sun]');
         data.addColumn('number', 'Completed');
 				data.addColumn('number', 'Difference');
 				data.addColumn('number', 'Difference %');
 
         //add data
-        console.log("quota_data list: ", quota_data);
         for (i = 0; i < quota_data.length; i++) {
           var row = quota_data[i];
           data.addRows([
           [
             row.Airport_Airline,
             Number(row.Quota),
+            row.doop,
             Number(row.Completed), Number(row.Difference), Number(row.Difference_percent)
           ]
           ]);

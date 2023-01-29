@@ -15,7 +15,6 @@ function CalculateAirportAirLineReport() {
         row.Completed++;
       }
     }
-    //console.log("airport_airline:", airport_airline);
     row.Difference = row.Completed -  row.Quota;
     row.Difference_percent =(100*(row.Difference/row.Quota)).toFixed(1);
     row.Prioritisation_score = row.Difference_percent*row.Difference/100;
@@ -56,13 +55,64 @@ function CalculateAirportAirLineReport() {
   }
 }
 
+function getDOOP(date) //"07-02-2023"
+{
+  var parts = date.split("-")
+  var day = parts[0];
+  var Month = parts[1];
+  var Year = parts[2];
+
+  const d = new Date();
+  d.setDate(day);
+  d.setMonth(Month-1); //month start from 0
+  d.setYear(Year);
+
+  return d.getDay(); //Sun: 0; Sat: 6
+}
 function CalculateDOOP() {
-  for (i = 0; i < 1; i++) {//quota_data.length
-    for (j = 0; j < 20; j++) {//this_month_flight_list.length
+  for (i = 0; i < quota_data.length; i++) {
+    quota_data[i].doop = " ";
+
+    var mon =0;
+    var tue =0;
+    var wed =0;
+    var thu =0;
+    var fri =0;
+    var sat =0;
+    var sun =0;
+
+    for (j = 0; j < this_month_flight_list.length; j++) {
       if (quota_data[i].Airport_Airline.toUpperCase() == this_month_flight_list[j].Airport_Airline.toUpperCase()) 
       {
-        console.log("quota_data",quota_data[i]);
-        console.log("this_month_flight_list",this_month_flight_list[j]);
+        switch (getDOOP( this_month_flight_list[j].Date)) {
+          case 0:
+            sun = "1";
+            break;
+          case 1:
+            mon = "1";
+            break;
+          case 2:
+            tue = "1";
+            break;
+          case 3:
+            wed = "1";
+            break;
+          case 4:
+            thu = "1";
+            break;
+          case 5:
+            fri = "1";
+            break;
+          case 6:
+            sat = "1";
+            break;
+          default:
+            break;
+        }
+
+        quota_data[i].doop =[mon, tue, wed, thu, fri, sat, sun].join('');
+        console.log("Date: ", this_month_flight_list[j]);
+        console.log("doop: ",quota_data[i]);
       }
     }
   

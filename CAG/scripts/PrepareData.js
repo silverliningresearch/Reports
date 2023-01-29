@@ -26,16 +26,9 @@ function notDeparted(flight_time) {
   var current_time_value  = current_time.substring(current_time.length-8,current_time.length-6) * 60;
   current_time_value += current_time.substring(current_time.length-5,current_time.length-3)*1;
 
-   //console.log("time en-SG: ", current_time);
-   //console.log("current_time_value: ", current_time_value);
-
   //Time: 0805    
   var flight_time_value = flight_time.substring(0,2) * 60 + flight_time.substring(2,4)*1;
-  //console.log("flight_time_value: ", flight_time);
-  //console.log("flight_time_value: ", flight_time_value);
-
   var result = (flight_time_value > current_time_value);
-  //console.log("result: ", result);
   return (result);
 }
 
@@ -81,8 +74,6 @@ function prepareInterviewData() {
     }
   }
 
-  console.log("interview_data: ", interview_data);
-
   //prepare flight list
     //empty the list
   today_flight_list = [];
@@ -123,5 +114,4 @@ function prepareInterviewData() {
        }
     }
   }
-  console.log("daily_plan_data list: ", daily_plan_data);
 }
