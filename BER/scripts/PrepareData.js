@@ -112,12 +112,14 @@ function prepareInterviewData() {
     //only get today & not departed flight
     //Airline
     var airline_code = flight.Flight.substring(0,2);
+	
     //airport_airline
     var airport_airline = flight.Airport_code + " - " + flight.Airline
 
     flight.Dtime = dtime;
     flight.Airline = airline_code;
     flight.Airport_Airline = airport_airline;
+	
     if ((currentDate == flight.Date) && notDeparted(dtime)) { 
       today_flight_list.push(flight);
     }

@@ -1,14 +1,17 @@
-var today_flight_list;
-var daily_plan_data;
+var quota_data;
 var interview_data;
-const current_months = "01-02-03";
-const current_year = "2023";
+var today_flight_list;
+var this_month_flight_list;
+var daily_plan_data;
+
+var currentMonth;
+var currentDate;
 var download_time;
 /************************************/
-function getToDate() {
+function initCurrentTimeVars() {
   var d = new Date();
       
-  month = '' + (d.getMonth() + 1),
+  month = '' + (d.getMonth() + 1), //month start from 0;
   day = '' + d.getDate(),
   year = d.getFullYear();
 
@@ -17,7 +20,29 @@ function getToDate() {
   if (day.length < 2) 
       day = '0' + day;
 
-  return [day, month, year].join('-');
+  currentMonth =[month,year].join('-')
+  currentDate = [day, month,year].join('-');
+  //return [day, month,year].join('-');
+}
+
+function isCurrentMonth(interviewEndDate)
+{
+// Input: "1\/10\/2023 7:21:16 PM"
+  var interviewDateParsed = interviewEndDate.split("/")
+  var interviewMonth = interviewDateParsed[0];
+  var interviewYear = interviewDateParsed[2].substring(0,4);
+  var result = false;
+
+  var d = new Date();
+  month = '' + (d.getMonth() + 1); //month start from 0; 
+  year = d.getFullYear();
+  
+  if ((month == interviewMonth) && (year==interviewYear))
+  {
+    result = true;
+  }
+
+  return result;
 }
 
 function notDeparted(flight_time) {
@@ -33,10 +58,11 @@ function notDeparted(flight_time) {
 }
 
 function prepareInterviewData() {
-  var quota_data_temp = JSON.parse(airport_airline_quota);
+  quota_data = JSON.parse(airport_airline_quota);
   var interview_data_temp  = JSON.parse(interview_data_raw);
   var flight_list_temp  = JSON.parse(cagAirHubFlightRawList);
 
+  initCurrentTimeVars();						
   //get relevant interview data
   //empty the list
   interview_data = [];
@@ -48,10 +74,11 @@ function prepareInterviewData() {
     //only get complete interview & not test
     if ((interview.InterviewState == "Completed")
       //&& (interview.Core_Q1 == "1")
+      && (isCurrentMonth(interview.InterviewEndDate))
       )
     {
       ////////////////////
-      //TO fix data which include  airline name into Airline_Code
+      //To fix data which include  airline name into Airline_Code
       var temp = interview["custom.Airline"];
       if (interview["custom.Airline_Code"].length>3) {
         temp = temp.split(" - ");
@@ -78,24 +105,34 @@ function prepareInterviewData() {
     //empty the list
   today_flight_list = [];
   today_flight_list.length = 0;
-
-  var today = getToDate();
+  
+  this_month_flight_list  = [];
+  this_month_flight_list.length = 0;
+  
   for (i = 0; i < flight_list_temp.length; i++) {
     let flight = flight_list_temp[i];
 
     var dtime = flight.Time;
-    //only get today & not departed flight
-    if ((today == flight.Date) && notDeparted(dtime)) { 
+													
       //airport_airline
       var airport_airline = flight.Dest + " - " + flight.AirlineCode; //code for compare
 
+						 
       var airline_name = flight.Airline.split(" - ");; //name for display
       flight.airport_airline_name  = flight.Dest + " - " + airline_name[1]; //second part 
       flight.Flight = flight.AirlineCode + " " + flight.Flight;
       flight.Dtime = dtime;
       flight.Airport_Airline = airport_airline;
+	  
+    //only get today & not departed flight
+    if ((currentDate == flight.Date) && notDeparted(dtime)) { 
       today_flight_list.push(flight);
     }
+    //currentMonth: 02-2023
+    //flight.Date: 08-02-2023
+    if (currentMonth == flight.Date.substring(3,10)) { 
+      this_month_flight_list.push(flight);
+    }				   
   }
 
   //add quota data
@@ -105,8 +142,8 @@ function prepareInterviewData() {
   
   for (i = 0; i < today_flight_list.length; i++) {
     let flight = today_flight_list[i];
-    for (j = 0; j < quota_data_temp.length; j++) {
-      let quota = quota_data_temp[j]
+    for (j = 0; j < quota_data.length; j++) {
+      let quota = quota_data[j]
       if ((quota.Airport_Airline == flight.Airport_Airline) && (quota.Quota>0))
       {
         flight.Quota = quota.Quota;
