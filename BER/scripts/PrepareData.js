@@ -23,6 +23,15 @@ function getToDate() {
   return [day, month,year].join('-');
 }
 
+function isCurrentMonth(interviewEndDate)
+{
+// Expected output: 0
+  var interviewEndDateParsed = interviewEndDate.split("/")
+  console.log("interviewEndDateParsed month",interviewEndDateParsed);
+  console.log("interviewEndDate month",interviewEndDate.substring(0,2) );
+  return true;
+}
+
 function notDeparted(flight_time) {
   var current_time = new Date().toLocaleString('de-DE', {timeZone: 'Europe/Berlin',});
   //15:13:27
@@ -58,6 +67,7 @@ function prepareInterviewData() {
     //only get complete interview & not test
     if ((interview.InterviewState == "Completed")
       //&& (interview.Core_Q1 == "1")
+      && (isCurrentMonth(interview.InterviewEndDate))
       )
     {
       if (interview.urlVar15 && interview.urlVar16) {
@@ -91,11 +101,6 @@ function prepareInterviewData() {
     dhour = dhour.substring(dhour.length-2,dhour.length);
     var dminutes = flight.Show.substring(12,14);
     var dtime = dhour + ":" + dminutes;
-    // console.log("flight.Show: ", flight.Show);
-    // console.log("dhour: ", dhour);
-    // console.log("dminutes: ", dminutes);
-    // console.log("dtime: ", dtime); 
-    // //
 
     //only get today & not departed flight
     if ((today == flight.Date) && notDeparted(dtime)) { 

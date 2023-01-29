@@ -21,7 +21,6 @@ function CalculateAirportAirLineReport() {
     row.Prioritisation_score = row.Difference_percent*row.Difference/100;
   }
 
-  console.log("daily_plan_data list: ", daily_plan_data);
   for (i = 0; i < daily_plan_data.length; i++) {//airport_airline_report.length;
     row = daily_plan_data[i];
     for (j = 0; j < quota_data.length; j++) {
