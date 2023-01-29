@@ -1,14 +1,14 @@
 var quota_data;
 var interview_data;
 var today_flight_list;
+var this_month_flight_list;
 var daily_plan_data;
 
-const dataCollectionStart = "01-02-03";
-const dataCollectionEnd = "";
-const current_year = "2023";
+var currentMonth;
+var currentDate;
 var download_time;
 /************************************/
-function getToDate() {
+function initCurrentTimeVars() {
   var d = new Date();
       
   month = '' + (d.getMonth() + 1),
@@ -20,12 +20,14 @@ function getToDate() {
   if (day.length < 2) 
       day = '0' + day;
 
-  return [day, month,year].join('-');
+  currentMonth =[month,year].join('-')
+  currentDate = [day, month,year].join('-');
+  //return [day, month,year].join('-');
 }
 
 function isCurrentMonth(interviewEndDate)
 {
-// Expected output: 0
+// Input: "1\/10\/2023 7:21:16 PM"
   var interviewDateParsed = interviewEndDate.split("/")
   var interviewMonth = interviewDateParsed[0];
   var interviewYear = interviewDateParsed[2].substring(0,4);
@@ -67,6 +69,7 @@ function prepareInterviewData() {
   var interview_data_temp  = JSON.parse(interview_data_raw);
   var departures_flight_list_temp  = JSON.parse(departuresFlightList);
 
+  initCurrentTimeVars();
   //get relevant interview data
   //empty the list
   interview_data = [];
@@ -102,7 +105,9 @@ function prepareInterviewData() {
   today_flight_list = [];
   today_flight_list.length = 0;
 
-  var today = getToDate();
+  this_month_flight_list  = [];
+  this_month_flight_list.length = 0;
+
   for (i = 0; i < departures_flight_list_temp.length; i++) {
     let flight = departures_flight_list_temp[i];
 
@@ -114,16 +119,22 @@ function prepareInterviewData() {
     var dtime = dhour + ":" + dminutes;
 
     //only get today & not departed flight
-    if ((today == flight.Date) && notDeparted(dtime)) { 
-      //Airline
-      var airline_code = flight.Flight.substring(0,2);
-      //airport_airline
-      var airport_airline = flight.Airport_code + " - " + flight.Airline
+    //Airline
+    var airline_code = flight.Flight.substring(0,2);
+    //airport_airline
+    var airport_airline = flight.Airport_code + " - " + flight.Airline
 
-      flight.Dtime = dtime;
-      flight.Airline = airline_code;
-      flight.Airport_Airline = airport_airline;
+    flight.Dtime = dtime;
+    flight.Airline = airline_code;
+    flight.Airport_Airline = airport_airline;
+    if ((currentDate == flight.Date) && notDeparted(dtime)) { 
       today_flight_list.push(flight);
+    }
+
+    //02-2023
+    //"08-02-2023"
+    if ((currentMonth == flight.Date.substring(3,10)) && notDeparted(dtime)) { 
+      this_month_flight_list.push(flight);
     }
   }
 
@@ -143,6 +154,4 @@ function prepareInterviewData() {
        }
     }
   }
-  
-
 }

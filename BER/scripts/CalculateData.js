@@ -55,3 +55,10 @@ function CalculateAirportAirLineReport() {
     }
   }
 }
+
+function CalculateDOOP() {
+  var departures_flight_list_temp  = JSON.parse(departuresFlightList);
+
+  for (i = 0; i < departures_flight_list_temp.length; i++) {
+  }
+}
