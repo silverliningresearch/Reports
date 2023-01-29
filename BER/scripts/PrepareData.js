@@ -26,10 +26,21 @@ function getToDate() {
 function isCurrentMonth(interviewEndDate)
 {
 // Expected output: 0
-  var interviewEndDateParsed = interviewEndDate.split("/")
-  console.log("interviewEndDateParsed month",interviewEndDateParsed);
-  console.log("interviewEndDate month",interviewEndDate.substring(0,2) );
-  return true;
+  var interviewDateParsed = interviewEndDate.split("/")
+  var interviewMonth = interviewDateParsed[0];
+  var interviewYear = interviewDateParsed[2].substring(0,4);
+  var result = false;
+
+  var d = new Date();
+  month = '' + (d.getMonth() + 1),
+  year = d.getFullYear();
+  
+  if ((month == interviewMonth) && (year==interviewYear))
+  {
+    result = true;
+  }
+
+  return result;
 }
 
 function notDeparted(flight_time) {
