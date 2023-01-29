@@ -6,8 +6,8 @@ function CalculateAirportAirLineReport() {
   daily_plan_data_temp = [];
   daily_plan_data_temp.length = 0;
 
-  for (i = 0; i < daily_plan_data.length; i++) {//airport_airline_report.length;
-    row = daily_plan_data[i];
+  for (i = 0; i < quota_data.length; i++) {//airport_airline_report.length;
+    row = quota_data[i];
     row.Completed = 0;
     for (j = 0; j < interview_data.length; j++) {
       if (row.Airport_Airline.toUpperCase() == interview_data[j].Airport_Airline.toUpperCase()) 
@@ -19,13 +19,25 @@ function CalculateAirportAirLineReport() {
     row.Difference = row.Completed -  row.Quota;
     row.Difference_percent =(100*(row.Difference/row.Quota)).toFixed(1);
     row.Prioritisation_score = row.Difference_percent*row.Difference/100;
-
-    if ( row.Difference < 0) {
-      daily_plan_data_temp.push(row);
-    }
   }
 
- 
+  console.log("daily_plan_data list: ", daily_plan_data);
+  for (i = 0; i < daily_plan_data.length; i++) {//airport_airline_report.length;
+    row = daily_plan_data[i];
+    for (j = 0; j < quota_data.length; j++) {
+      if (row.Airport_Airline.toUpperCase() == quota_data[j].Airport_Airline.toUpperCase()) 
+      {
+        if ( quota_data[j].Difference < 0) {
+          row.Completed = quota_data[j].Completed;
+          row.Difference = quota_data[j].Difference;
+          row.Difference_percent = quota_data[j].Difference_percent;
+          row.Prioritisation_score = quota_data[j].Prioritisation_score;
+          daily_plan_data_temp.push(row);
+        }
+      }
+    }  
+  }
+
   daily_plan_data = [];
   daily_plan_data.length = 0;
 

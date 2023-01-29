@@ -1,10 +1,7 @@
-var quota_data;
-var interview_data;
 var today_flight_list;
 var daily_plan_data;
-
-const dataCollectionStart = "01-02-03";
-const dataCollectionEnd = "";
+var interview_data;
+const current_months = "01-02-03";
 const current_year = "2023";
 var download_time;
 /************************************/
@@ -43,7 +40,7 @@ function notDeparted(flight_time) {
 }
 
 function prepareInterviewData() {
-  quota_data = JSON.parse(airport_airline_quota);
+  var quota_data_temp = JSON.parse(airport_airline_quota);
   var interview_data_temp  = JSON.parse(interview_data_raw);
   var departures_flight_list_temp  = JSON.parse(departuresFlightList);
 
@@ -74,7 +71,7 @@ function prepareInterviewData() {
       }
     }
   }
-  // console.log("interview_data: ", interview_data);
+  console.log("interview_data: ", interview_data);
 
   //prepare flight list
     //empty the list
@@ -91,11 +88,11 @@ function prepareInterviewData() {
     dhour = dhour.substring(dhour.length-2,dhour.length);
     var dminutes = flight.Show.substring(12,14);
     var dtime = dhour + ":" + dminutes;
-    // console.log("flight.Show: ", flight.Show);
-    // console.log("dhour: ", dhour);
-    // console.log("dminutes: ", dminutes);
-    // console.log("dtime: ", dtime); 
-    // //
+    console.log("flight.Show: ", flight.Show);
+    console.log("dhour: ", dhour);
+    console.log("dminutes: ", dminutes);
+    console.log("dtime: ", dtime); 
+    //
 
     //only get today & not departed flight
     if ((today == flight.Date) && notDeparted(dtime)) { 
@@ -118,8 +115,8 @@ function prepareInterviewData() {
   
   for (i = 0; i < today_flight_list.length; i++) {
     let flight = today_flight_list[i];
-    for (j = 0; j < quota_data.length; j++) {
-      let quota = quota_data[j];
+    for (j = 0; j < quota_data_temp.length; j++) {
+      let quota = quota_data_temp[j]
       if ((quota.Airport_Airline == flight.Airport_Airline) && (quota.Quota>0))
       {
         flight.Quota = quota.Quota;
@@ -127,6 +124,5 @@ function prepareInterviewData() {
        }
     }
   }
-  
-  console.log("quota_data list: ", quota_data);
+  console.log("daily_plan_data list: ", daily_plan_data);
 }
