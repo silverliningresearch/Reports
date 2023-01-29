@@ -57,8 +57,14 @@ function CalculateAirportAirLineReport() {
 }
 
 function CalculateDOOP() {
-  var departures_flight_list_temp  = JSON.parse(departuresFlightList);
-
-  for (i = 0; i < departures_flight_list_temp.length; i++) {
+  for (i = 0; i < 1; i++) {//quota_data.length
+    for (j = 0; j < 20; j++) {//this_month_flight_list.length
+      if (quota_data[i].Airport_Airline.toUpperCase() == this_month_flight_list[j].Airport_Airline.toUpperCase()) 
+      {
+        console.log("quota_data",quota_data[i]);
+        console.log("this_month_flight_list",this_month_flight_list[j]);
+      }
+    }
+  
   }
 }
