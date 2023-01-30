@@ -28,8 +28,8 @@
 
         //define header
         data.addColumn('string', 'To Airport - By Airline');
-        data.addColumn('number', 'Quota');
         data.addColumn('string', 'DOOP [Mon-Sun]');
+        data.addColumn('number', 'Quota');
         data.addColumn('number', 'Completed');
 				data.addColumn('number', 'Difference');
 				data.addColumn('number', 'Difference %');
@@ -40,8 +40,8 @@
           data.addRows([
           [
             row.Airport_Airline,
-            Number(row.Quota),
             row.doop,
+            Number(row.Quota),
             Number(row.Completed), Number(row.Difference), Number(row.Difference_percent)
           ]
           ]);
