@@ -143,7 +143,7 @@ function prepareInterviewData() {
   for (i = 0; i < today_flight_list.length; i++) {
     let flight = today_flight_list[i];
     for (j = 0; j < quota_data.length; j++) {
-      let quota = quota_data[j]
+      let quota = quota_data[j];
       if ((quota.Airport_Airline == flight.Airport_Airline) && (quota.Quota>0))
       {
         flight.Quota = quota.Quota;
