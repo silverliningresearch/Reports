@@ -1,7 +1,8 @@
 /************************************/
 function CalculateAirportAirLineReport() {
   prepareInterviewData();
-  
+  CalculateDOOP(); //add DOOP to quota list
+
   var daily_plan_data_temp;
   daily_plan_data_temp = [];
   daily_plan_data_temp.length = 0;
@@ -27,6 +28,7 @@ function CalculateAirportAirLineReport() {
       if (row.Airport_Airline.toUpperCase() == quota_data[j].Airport_Airline.toUpperCase()) 
       {
         if ( quota_data[j].Difference < 0) {
+          row.doop = quota_data[j].doop;
           row.Completed = quota_data[j].Completed;
           row.Difference = quota_data[j].Difference;
           row.Difference_percent = quota_data[j].Difference_percent;

@@ -6,14 +6,15 @@ var daily_plan_data;
 
 var currentMonth;
 var currentDate;
+var nextDate;
 var download_time;
 /************************************/
 function initCurrentTimeVars() {
   var d = new Date();
       
-  month = '' + (d.getMonth() + 1), //month start from 0;
-  day = '' + d.getDate(),
-  year = d.getFullYear();
+  var month = '' + (d.getMonth() + 1); //month start from 0;
+  var day = '' + d.getDate();
+  var year = d.getFullYear();
 
   if (month.length < 2) 
       month = '0' + month;
@@ -22,6 +23,20 @@ function initCurrentTimeVars() {
 
   currentMonth =[month,year].join('-')
   currentDate = [day, month,year].join('-');
+  
+  //next day
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate()+1);
+  var tomorrowMonth = '' + (tomorrow.getMonth() + 1); //month start from 0;
+  var tomorrowDay = '' + tomorrow.getDate();
+  var tomorrowYear = tomorrow.getFullYear();
+
+  if (tomorrowMonth.length < 2) 
+  tomorrowMonth = '0' + tomorrowMonth;
+  if (tomorrowDay.length < 2) 
+  tomorrowDay = '0' + tomorrowDay;
+  nextDate  = [tomorrowDay, tomorrowMonth, tomorrowYear].join('-');
+
   //return [day, month,year].join('-');
 }
 
@@ -125,7 +140,10 @@ function prepareInterviewData() {
       flight.Airport_Airline = airport_airline;
 	  
     //only get today & not departed flight
-    if ((currentDate == flight.Date) && notDeparted(dtime)) { 
+    if (((currentDate == flight.Date) && notDeparted(dtime))
+        || (nextDate == flight.Date)) 
+    { 
+      flight.Dtime = flight.Date + " " + dtime;
       today_flight_list.push(flight);
     }
     //currentMonth: 02-2023
