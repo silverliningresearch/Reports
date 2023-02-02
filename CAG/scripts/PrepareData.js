@@ -95,7 +95,7 @@ function prepareInterviewData() {
       ////////////////////
       //To fix data which include  airline name into Airline_Code
       var temp = interview["custom.Airline"];
-      if (interview["custom.Airline_Code"].length>3) {
+      if (interview["custom.Airline_Code"] && interview["custom.Airline_Code"].length>3) {
         temp = temp.split(" - ");
         var airlinecode = temp[0];
         interview["custom.Airline_Code"] = airlinecode;
