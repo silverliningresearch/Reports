@@ -86,25 +86,25 @@ function CalculateDOOP() {
       {
         switch (getDOOP( this_month_flight_list[j].Date)) {
           case 0:
-            sun = "1";
+            sun = "7";
             break;
           case 1:
             mon = "1";
             break;
           case 2:
-            tue = "1";
+            tue = "2";
             break;
           case 3:
-            wed = "1";
+            wed = "3";
             break;
           case 4:
-            thu = "1";
+            thu = "4";
             break;
           case 5:
-            fri = "1";
+            fri = "5";
             break;
           case 6:
-            sat = "1";
+            sat = "6";
             break;
           default:
             break;
