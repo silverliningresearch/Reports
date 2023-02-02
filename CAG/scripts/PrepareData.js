@@ -100,6 +100,11 @@ function prepareInterviewData() {
         var airlinecode = temp[0];
         interview["custom.Airline_Code"] = airlinecode;
       }
+      else {
+        if (!interview["custom.Airline_Code"]) {
+        console.log("mising Airline_Code: ", interview);
+        }
+      }
       ////////////////////
 
       if (interview["custom.Dest"] &&  interview["custom.Airline_Code"]) {
