@@ -3,6 +3,7 @@ var interview_data;
 var today_flight_list;
 var this_month_flight_list;
 var daily_plan_data;
+var removed_ids_data;
 
 var currentMonth;
 var currentDate;
@@ -72,8 +73,22 @@ function notDeparted(flight_time) {
   return (result);
 }
 
+function isvalid_id(id)
+{
+  valid = true;
+
+  for (i = 0; i < removed_ids_data.length; i++) {
+    if (removed_ids_data.removed_id == id)
+    {
+      valid = false;
+    }
+  }
+  return valid;
+}
 function prepareInterviewData() {
   quota_data = JSON.parse(airport_airline_quota);
+  removed_ids_data = JSON.parse(removed_ids);
+
   var interview_data_temp  = JSON.parse(interview_data_raw);
   var flight_list_temp  = JSON.parse(cagAirHubFlightRawList);
 
@@ -113,7 +128,10 @@ function prepareInterviewData() {
         var airport_airline = '"Airport_Airline"' + ":" + '"' +  airport_code + " - " + airline_code + '", ';
         var InterviewEndDate = '"InterviewEndDate"' + ":" + '"' +  interview["InterviewEndDate"] ;
         var str = '{' + airport_airline + InterviewEndDate + '"}';
-        interview_data.push(JSON.parse(str));
+        if (isvalid_id(interview["Interview Id"])) //check if valid
+        {
+          interview_data.push(JSON.parse(str));
+        }
       }
       else{
         console.log("ignored interview: ", interview);
