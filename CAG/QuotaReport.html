@@ -4,6 +4,7 @@
 
 		<script src="data/AirportAirLine_Quota.js"></script>
 		<script src="data/interviewData.js"></script>
+    <script src="data/invalid_cases.js"></script>
     <script src="data/flight_list.js"></script>
     <script src="scripts/PrepareData.js"></script>
 		<script src="scripts/CalculateData.js"></script>
@@ -80,11 +81,17 @@
 
         //Update time info
         document.getElementById("download_time").innerHTML = "Data updated: " + download_time;
+
+        var overall_status = "Total quota: " + total_quota;
+        overall_status += " - Total completed: " + total_completed;
+        overall_status += " - Quota completed: " + total_quota_completed;
+        document.getElementById("overall_status").innerHTML = overall_status;
       }
     </script>
   </head>
   <body>
 		<h1>Quota Report - CAG Airhub Passenger Survey</h1>
+    <h4 id="overall_status"></h4>
     <h4 id="download_time"></h4>
     <div id="dashboard_div">
       <!--Divs that will hold each control and chart-->

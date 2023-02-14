@@ -6,6 +6,9 @@ function CalculateAirportAirLineReport() {
   var daily_plan_data_temp;
   daily_plan_data_temp = [];
   daily_plan_data_temp.length = 0;
+  
+  total_completed = 0;
+  total_quota_completed = 0;
 
   for (i = 0; i < quota_data.length; i++) {//airport_airline_report.length;
     row = quota_data[i];
@@ -20,6 +23,18 @@ function CalculateAirportAirLineReport() {
     row.Difference = row.Completed -  row.Quota;
     row.Difference_percent =(100*(row.Difference/row.Quota)).toFixed(1);
     row.Prioritisation_score = row.Difference_percent*row.Difference/100;
+
+    total_completed = total_completed + row.Completed;
+        
+    if ( row.Difference > 0) { //over quota
+      total_quota_completed = total_quota_completed +row.Quota*1;
+    }
+    else { //<= 0
+      if (row.Completed) {
+        total_quota_completed = total_quota_completed + row.Completed*1;
+      }
+    }
+
   }
 
   for (i = 0; i < daily_plan_data.length; i++) {//airport_airline_report.length;

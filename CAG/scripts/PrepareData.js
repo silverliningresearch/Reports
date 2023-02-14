@@ -9,6 +9,11 @@ var currentMonth;
 var currentDate;
 var nextDate;
 var download_time;
+
+var total_quota = 2500;
+var total_completed;
+var total_quota_completed;
+
 /************************************/
 function initCurrentTimeVars() {
   var d = new Date();
@@ -77,8 +82,10 @@ function isvalid_id(id)
 {
   valid = true;
 
-  for (i = 0; i < removed_ids_data.length; i++) {
-    if (removed_ids_data.removed_id == id)
+  var i = 0;
+  for (i = 0; i < removed_ids_data.length; i++) 
+  { 
+    if (removed_ids_data[i].removed_id == id)
     {
       valid = false;
     }
@@ -128,9 +135,13 @@ function prepareInterviewData() {
         var airport_airline = '"Airport_Airline"' + ":" + '"' +  airport_code + " - " + airline_code + '", ';
         var InterviewEndDate = '"InterviewEndDate"' + ":" + '"' +  interview["InterviewEndDate"] ;
         var str = '{' + airport_airline + InterviewEndDate + '"}';
-        if (isvalid_id(interview["Interview Id"])) //check if valid
+        if (isvalid_id(interview["InterviewId"])) //check if valid
         {
           interview_data.push(JSON.parse(str));
+        }
+        else
+        {
+          console.log("invalid id: ", interview);
         }
       }
       else{
