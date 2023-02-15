@@ -12,7 +12,10 @@ var download_time;
 
 var total_quota = 2500;
 var total_completed;
+
 var total_quota_completed;
+var total_hard_quota;
+
 
 /************************************/
 function initCurrentTimeVars() {
