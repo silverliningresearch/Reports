@@ -138,6 +138,7 @@ function prepareInterviewData() {
         var airport_airline = '"Airport_Airline"' + ":" + '"' +  airport_code + " - " + airline_code + '", ';
         var InterviewEndDate = '"InterviewEndDate"' + ":" + '"' +  interview["InterviewEndDate"] ;
         var str = '{' + airport_airline + InterviewEndDate + '"}';
+		console.log("Interview Data: ", str);
         if (isvalid_id(interview["InterviewId"])) //check if valid
         {
           interview_data.push(JSON.parse(str));
